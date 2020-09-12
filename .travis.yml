@@ -1,12 +1,12 @@
-sudi: require
+sudo: require
 services:
     - docker
-
+# Build a test image
 before_install:
     - docker build -t chris/react-test -f ./client/Dockerfile.dev ./client
- 
+# Run a test image in a container
 script:
-    - docker run chris/react-test npm test -- --coverage
+    - docker run -e CI=true USERNAME/react-test npm test
 
 after_success:
     - docker build -t chris/multi-client ./client 
