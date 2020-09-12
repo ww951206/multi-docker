@@ -1,0 +1,22 @@
+sudi: require
+services:
+    - docker
+
+before_install:
+    - docker build -t chris/react-test -f ./client/Dockerfile.dev ./client
+ 
+script:
+    - docker run chris/react-test npm test -- --coverage
+
+after_success:
+    - docker build -t chris/multi-client ./client 
+    - docker build -t chris/multi-nginx ./nginx 
+    - docker build -t chris/multi-server ./server 
+    - docker build -t chris/multi-worker ./worker 
+# Log in to docker CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+# Take those images and pussh them to docker hub
+    - docker push chris/multi-client
+    - docker push chris/multi-nginx
+    - docker push chris/multi-server
+    - docker push chris/multi-worker
