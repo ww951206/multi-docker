@@ -8,15 +8,15 @@ before_install:
 script:
     - docker run -e CI=true chris/react-test npm test
 after_success:
-    - docker build -t chris/multi-client ./client 
-    - docker build -t chris/multi-nginx ./nginx 
-    - docker build -t chris/multi-server ./server 
-    - docker build -t chris/multi-worker ./worker 
+    - docker build -t ww951206/multi-client ./client 
+    - docker build -t ww951206/multi-nginx ./nginx 
+    - docker build -t ww951206/multi-server ./server 
+    - docker build -t ww951206/multi-worker ./worker 
 # Log in to docker CLI
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin docker.io
 
 # Take those images and pussh them to docker hub
-    - docker push chris/multi-client
-    - docker push chris/multi-nginx
-    - docker push chris/multi-server
-    - docker push chris/multi-worker
+    - docker push ww951206/multi-client
+    - docker push ww951206/multi-nginx
+    - docker push ww951206/multi-server
+    - docker push ww951206/multi-worker
